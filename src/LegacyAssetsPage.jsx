@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './LegacyAssetsPage.css';
 
-const LegacyAssetsPage = () => {
+const LegacyAssetsPage = ({ onNavigateToCategory }) => {
   const [expandedSections, setExpandedSections] = useState([]);
 
   const categories = [
@@ -119,10 +119,10 @@ const LegacyAssetsPage = () => {
     }
   ];
 
-  const toggleSection = (id) => {
-    setExpandedSections(prev => 
-      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
-    );
+  const handleCategoryClick = (categoryId) => {
+    if (onNavigateToCategory) {
+      onNavigateToCategory(categoryId);
+    }
   };
 
   return (
@@ -134,7 +134,11 @@ const LegacyAssetsPage = () => {
 
       <div className="categories-grid">
         {categories.map((category) => (
-          <div key={category.id} className="category-card">
+          <div 
+            key={category.id} 
+            className="category-card"
+            onClick={() => handleCategoryClick(category.id)}
+          >
             <div className="category-header-bg"></div>
             <div className="category-content">
               <h3 className="category-title">{category.title}</h3>
