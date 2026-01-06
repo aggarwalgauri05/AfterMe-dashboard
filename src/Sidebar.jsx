@@ -1,13 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Sidebar.css';
 
 const Sidebar = () => {
+ const [user, setUser] = useState({
+  firstName: "Gauri",
+  lastName: "Aggarwal",
+  email: "gauriaggarwal0112@gmail.com",
+  role:"Member",
+  profileCompletion:0
+});
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.warn("No token found");
+    return;
+  }
+
+  fetch("https://api.afterme.com/api/auth/me", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Unauthorized");
+      return res.json();
+    })
+    .then(data => setUser(data))
+    .catch(err => {
+      console.error(err);
+      localStorage.removeItem("token");
+    });
+
+}, []);
+
+  const fullName = `${user.firstName} ${user.lastName}`;
+ const initials =
+  (user.firstName?.[0] || "").toUpperCase() +
+  (user.lastName?.[0] || "").toUpperCase();
+
   return (
     <aside className="sidebar">
       <div className="user-profile">
         <div className="profile-banner"></div>
         <div className="profile-avatar">
-          <div className="avatar large">GA</div>
+        <div className="avatar large">{initials}</div>
           <button className="edit-icon" aria-label="Edit profile">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -15,10 +53,13 @@ const Sidebar = () => {
             </svg>
           </button>
         </div>
-        <h2 className="profile-name">Gauri Aggarwal</h2>
-        <p className="profile-email">gauriaggarwal0112@gmail.com</p>
-        <p className="profile-status">Logged in as: Member</p>
-        
+       <h2 className="profile-name">{fullName}</h2>
+      <p className="profile-email">{user.email}</p>
+
+        <p className="profile-status">
+          Logged in as: {user.role || "Member"}
+        </p>
+
         <div className="profile-completion">
           <div className="completion-bar">
             <div className="completion-fill" style={{width: '33%'}}></div>
