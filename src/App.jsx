@@ -15,6 +15,8 @@ import Financials from './Manage/Financials';
 import Miscellaneous from './Manage/Miscellaneous';
 import ExpertAdvisor from './Expert/ExpertAdvisor';
 import Legal from './Manage/Legal';
+import SocialDigital from './Manage/SocialDigital';
+import FuneralWishes from './Manage/FuneralWishes';
 import Trusts from './Manage/Trusts';
 import BankAccounts from './Manage/BankAccounts'; // 👈 Add this import
 import './App.css';
@@ -87,7 +89,9 @@ function App() {
 
         case 'valuable-possessions':
         case 'social-digital':
+          return <SocialDigital onBack={handleBackToCategories} />;
         case 'funeral-wishes':
+          return <FuneralWishes onBack={handleBackToCategories} />;
         case 'memory-lane':
           return <Miscellaneous onBack={handleBackToCategories} />;
 
