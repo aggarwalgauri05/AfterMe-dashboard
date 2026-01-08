@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './DocumentFormModal.css';
 
-const DocumentFormModal = ({ document, onClose }) => {
+const DocumentFormModal = ({ document, onClose, onSave }) => {
   const [activeTab, setActiveTab] = useState('files');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [formError, setFormError] = useState('');
   const [dragActive, setDragActive] = useState(false);
   
   const [formData, setFormData] = useState({
@@ -97,8 +98,46 @@ const DocumentFormModal = ({ document, onClose }) => {
   };
 
   const handleSubmit = () => {
+    // Reset previous error
+    setFormError('');
+
+    // Basic validation: require at least one uploaded file
+    if (!uploadedFiles || uploadedFiles.length === 0) {
+      setFormError('Please upload at least one file before saving.');
+      return;
+    }
+
+    // Validate required fields depending on document type
+    const requiredByType = {
+      passport: ['givenNames', 'surname', 'passportNumber'],
+      'drivers-license': ['givenNames', 'surname', 'licenceNumber'],
+      'birth-certificate': ['givenNames', 'surname', 'registrationNumber'],
+      'marriage-certificate': ['givenNames', 'surname', 'fullName', 'marriageDate'],
+      'divorce-certificate': ['givenNames', 'surname', 'divorceDate'],
+      'medical-records': ['recordType', 'recordDate'],
+      miscellaneous: ['fullName']
+    };
+
+    const required = requiredByType[document.id] || [];
+    for (const field of required) {
+      if (!formData[field] || formData[field].toString().trim() === '') {
+        setFormError('Please fill all required fields before saving.');
+        return;
+      }
+    }
+
     console.log('Form submitted:', formData);
     console.log('Uploaded files:', uploadedFiles);
+
+    // Notify parent to update counts / saved state
+    if (typeof onSave === 'function') {
+      try {
+        onSave(document.id);
+      } catch (e) {
+        console.error('onSave handler failed', e);
+      }
+    }
+
     onClose();
   };
 
@@ -442,6 +481,10 @@ const DocumentFormModal = ({ document, onClose }) => {
             </div>
           )}
         </div>
+
+        {formError && (
+          <div style={{ color: '#c53030', padding: '0 2rem', marginTop: '0.5rem' }}>{formError}</div>
+        )}
 
         <div className="modal-footer">
           <button className="btn-cancel" onClick={onClose}>Cancel</button>

@@ -6,7 +6,7 @@ const IdentificationDocuments = () => {
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const documents = [
+  const [documents, setDocuments] = useState([
     {
       id: 'passport',
       title: 'Passport/ ID card',
@@ -105,7 +105,11 @@ const IdentificationDocuments = () => {
       ),
       count: 0
     }
-  ];
+  ]);
+
+  const handleSaveDocument = (docId) => {
+    setDocuments((prev) => prev.map(d => d.id === docId ? { ...d, count: (d.count || 0) + 1 } : d));
+  };
 
   const handleDocumentClick = (doc) => {
     setSelectedDocument(doc);
@@ -150,6 +154,7 @@ const IdentificationDocuments = () => {
         <DocumentFormModal 
           document={selectedDocument}
           onClose={handleCloseModal}
+          onSave={handleSaveDocument}
         />
       )}
     </div>

@@ -6,7 +6,7 @@ const ImportantContacts = ({ onBack }) => {
   const [selectedContact, setSelectedContact] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const contacts = [
+  const [contacts, setContacts] = useState([
     {
       id: 'spouse-partner',
       title: 'Spouse or partner',
@@ -119,7 +119,11 @@ const ImportantContacts = ({ onBack }) => {
       ),
       count: 0
     }
-  ];
+  ]);
+
+  const handleSaveContact = (contactId) => {
+    setContacts(prev => prev.map(c => c.id === contactId ? { ...c, count: (c.count || 0) + 1 } : c));
+  };
 
   const handleContactClick = (contact) => {
     setSelectedContact(contact);
@@ -166,6 +170,7 @@ const ImportantContacts = ({ onBack }) => {
         <ContactFormModal 
           contact={selectedContact}
           onClose={handleCloseModal}
+          onSave={handleSaveContact}
         />
       )}
     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './ContactFormModal.css';
+import './DeviceFormModal.css';
 
-const ContactFormModal = ({ contact, onClose, onSave }) => {
+const DeviceFormModal = ({ device, onClose, onSave }) => {
   const [activeTab, setActiveTab] = useState('notes');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -9,17 +9,23 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
   const [dragActive, setDragActive] = useState(false);
   
   const [formData, setFormData] = useState({
-    firstName: '',
-    surname: '',
-    email: '',
-    phone: '',
-    address: '',
-    relationship: '',
-    companyName: '',
-    position: '',
-    specialty: '',
-    licenseNumber: '',
-    membershipNumber: '',
+    deviceName: '',
+    deviceModel: '',
+    serialNumber: '',
+    purchaseDate: '',
+    manufacturer: '',
+    operatingSystem: '',
+    storageCapacity: '',
+    password: '',
+    pinCode: '',
+    unlockPattern: '',
+    accountEmail: '',
+    accountPassword: '',
+    imeiNumber: '',
+    phoneNumber: '',
+    carrier: '',
+    processorType: '',
+    ramSize: '',
     notes: ''
   });
 
@@ -74,13 +80,13 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
   const handleSubmit = () => {
     setFormError('');
 
-    if (!formData.firstName || !formData.surname) {
-      setFormError('Please enter first name and surname before saving.');
+    if (!uploadedFiles || uploadedFiles.length === 0) {
+      setFormError('Please upload at least one file for this device before saving.');
       return;
     }
 
-    if (!uploadedFiles || uploadedFiles.length === 0) {
-      setFormError('Please upload at least one file before saving.');
+    if (!formData.deviceName || !formData.serialNumber) {
+      setFormError('Please fill Device Name and Serial Number.');
       return;
     }
 
@@ -88,69 +94,167 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
     console.log('Uploaded files:', uploadedFiles);
 
     if (typeof onSave === 'function') {
-      try { onSave(contact.id || 'contact'); } catch (e) { console.error(e); }
+      try { onSave(device.id || 'device'); } catch (e) { console.error(e); }
     }
 
     onClose();
   };
 
   const getFormFields = () => {
-    switch(contact.id) {
-      case 'spouse-partner':
+    switch(device.id) {
+      case 'smartphone':
         return (
           <>
             <div className="form-group">
-              <label className="form-label">First Name</label>
+              <label className="form-label">Device Name</label>
               <input 
                 type="text" 
-                name="firstName" 
-                value={formData.firstName} 
+                name="deviceName" 
+                value={formData.deviceName} 
                 onChange={handleChange} 
-                placeholder="First Name" 
+                placeholder="e.g., iPhone 15 Pro" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Surname</label>
+              <label className="form-label">Manufacturer</label>
               <input 
                 type="text" 
-                name="surname" 
-                value={formData.surname} 
+                name="manufacturer" 
+                value={formData.manufacturer} 
                 onChange={handleChange} 
-                placeholder="Surname" 
+                placeholder="e.g., Apple, Samsung" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label">Device Model</label>
               <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
+                type="text" 
+                name="deviceModel" 
+                value={formData.deviceModel} 
                 onChange={handleChange} 
-                placeholder="Email Address" 
+                placeholder="Model Number" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Contact Telephone Number</label>
+              <label className="form-label">Serial Number</label>
+              <input 
+                type="text" 
+                name="serialNumber" 
+                value={formData.serialNumber} 
+                onChange={handleChange} 
+                placeholder="Serial Number" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">IMEI Number</label>
+              <input 
+                type="text" 
+                name="imeiNumber" 
+                value={formData.imeiNumber} 
+                onChange={handleChange} 
+                placeholder="IMEI Number" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Phone Number</label>
               <input 
                 type="tel" 
-                name="phone" 
-                value={formData.phone} 
+                name="phoneNumber" 
+                value={formData.phoneNumber} 
                 onChange={handleChange} 
-                placeholder="01234567890" 
+                placeholder="Phone Number" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Address</label>
+              <label className="form-label">Carrier/Network Provider</label>
               <input 
                 type="text" 
-                name="address" 
-                value={formData.address} 
+                name="carrier" 
+                value={formData.carrier} 
                 onChange={handleChange} 
-                placeholder="Address" 
+                placeholder="e.g., Verizon, AT&T" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Operating System</label>
+              <input 
+                type="text" 
+                name="operatingSystem" 
+                value={formData.operatingSystem} 
+                onChange={handleChange} 
+                placeholder="e.g., iOS 17, Android 14" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Storage Capacity</label>
+              <input 
+                type="text" 
+                name="storageCapacity" 
+                value={formData.storageCapacity} 
+                onChange={handleChange} 
+                placeholder="e.g., 256GB, 512GB" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Device Password/PIN</label>
+              <input 
+                type="password" 
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                placeholder="Device Password or PIN" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Unlock Pattern (if applicable)</label>
+              <input 
+                type="text" 
+                name="unlockPattern" 
+                value={formData.unlockPattern} 
+                onChange={handleChange} 
+                placeholder="Describe unlock pattern" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Associated Account Email</label>
+              <input 
+                type="email" 
+                name="accountEmail" 
+                value={formData.accountEmail} 
+                onChange={handleChange} 
+                placeholder="Apple ID / Google Account" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Account Password</label>
+              <input 
+                type="password" 
+                name="accountPassword" 
+                value={formData.accountPassword} 
+                onChange={handleChange} 
+                placeholder="Account Password" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Purchase Date</label>
+              <input 
+                type="date" 
+                name="purchaseDate" 
+                value={formData.purchaseDate} 
+                onChange={handleChange} 
                 className="form-input" 
               />
             </div>
@@ -168,72 +272,148 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
           </>
         );
 
-      case 'closest-friends':
+      case 'personal-computer':
         return (
           <>
             <div className="form-group">
-              <label className="form-label">First Name</label>
+              <label className="form-label">Device Name</label>
               <input 
                 type="text" 
-                name="firstName" 
-                value={formData.firstName} 
+                name="deviceName" 
+                value={formData.deviceName} 
                 onChange={handleChange} 
-                placeholder="First Name" 
+                placeholder="e.g., MacBook Pro, Dell XPS" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Surname</label>
+              <label className="form-label">Manufacturer</label>
               <input 
                 type="text" 
-                name="surname" 
-                value={formData.surname} 
+                name="manufacturer" 
+                value={formData.manufacturer} 
                 onChange={handleChange} 
-                placeholder="Surname" 
+                placeholder="e.g., Apple, Dell, HP, Lenovo" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label">Device Model</label>
+              <input 
+                type="text" 
+                name="deviceModel" 
+                value={formData.deviceModel} 
+                onChange={handleChange} 
+                placeholder="Model Number" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Serial Number</label>
+              <input 
+                type="text" 
+                name="serialNumber" 
+                value={formData.serialNumber} 
+                onChange={handleChange} 
+                placeholder="Serial Number" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Operating System</label>
+              <input 
+                type="text" 
+                name="operatingSystem" 
+                value={formData.operatingSystem} 
+                onChange={handleChange} 
+                placeholder="e.g., macOS, Windows 11, Linux" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Processor Type</label>
+              <input 
+                type="text" 
+                name="processorType" 
+                value={formData.processorType} 
+                onChange={handleChange} 
+                placeholder="e.g., M3, Intel Core i7, AMD Ryzen" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">RAM Size</label>
+              <input 
+                type="text" 
+                name="ramSize" 
+                value={formData.ramSize} 
+                onChange={handleChange} 
+                placeholder="e.g., 16GB, 32GB" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Storage Capacity</label>
+              <input 
+                type="text" 
+                name="storageCapacity" 
+                value={formData.storageCapacity} 
+                onChange={handleChange} 
+                placeholder="e.g., 512GB SSD, 1TB HDD" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Login Password</label>
+              <input 
+                type="password" 
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                placeholder="Computer Login Password" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">PIN Code (if applicable)</label>
+              <input 
+                type="text" 
+                name="pinCode" 
+                value={formData.pinCode} 
+                onChange={handleChange} 
+                placeholder="PIN Code" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Associated Account Email</label>
               <input 
                 type="email" 
-                name="email" 
-                value={formData.email} 
+                name="accountEmail" 
+                value={formData.accountEmail} 
                 onChange={handleChange} 
-                placeholder="Email Address" 
+                placeholder="Microsoft/Apple Account Email" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Contact Telephone Number</label>
+              <label className="form-label">Account Password</label>
               <input 
-                type="tel" 
-                name="phone" 
-                value={formData.phone} 
+                type="password" 
+                name="accountPassword" 
+                value={formData.accountPassword} 
                 onChange={handleChange} 
-                placeholder="01234567890" 
+                placeholder="Account Password" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Relationship</label>
+              <label className="form-label">Purchase Date</label>
               <input 
-                type="text" 
-                name="relationship" 
-                value={formData.relationship} 
+                type="date" 
+                name="purchaseDate" 
+                value={formData.purchaseDate} 
                 onChange={handleChange} 
-                placeholder="e.g., Best Friend, Childhood Friend" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Address</label>
-              <input 
-                type="text" 
-                name="address" 
-                value={formData.address} 
-                onChange={handleChange} 
-                placeholder="Address" 
                 className="form-input" 
               />
             </div>
@@ -251,492 +431,115 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
           </>
         );
 
-      case 'lawyer':
+      case 'tablet':
         return (
           <>
             <div className="form-group">
-              <label className="form-label">First Name</label>
+              <label className="form-label">Device Name</label>
               <input 
                 type="text" 
-                name="firstName" 
-                value={formData.firstName} 
+                name="deviceName" 
+                value={formData.deviceName} 
                 onChange={handleChange} 
-                placeholder="First Name" 
+                placeholder="e.g., iPad Pro, Samsung Galaxy Tab" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Surname</label>
+              <label className="form-label">Manufacturer</label>
               <input 
                 type="text" 
-                name="surname" 
-                value={formData.surname} 
+                name="manufacturer" 
+                value={formData.manufacturer} 
                 onChange={handleChange} 
-                placeholder="Surname" 
+                placeholder="e.g., Apple, Samsung" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Company Name</label>
+              <label className="form-label">Device Model</label>
               <input 
                 type="text" 
-                name="companyName" 
-                value={formData.companyName} 
+                name="deviceModel" 
+                value={formData.deviceModel} 
                 onChange={handleChange} 
-                placeholder="Law Firm Name" 
+                placeholder="Model Number" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Specialty</label>
+              <label className="form-label">Serial Number</label>
               <input 
                 type="text" 
-                name="specialty" 
-                value={formData.specialty} 
+                name="serialNumber" 
+                value={formData.serialNumber} 
                 onChange={handleChange} 
-                placeholder="e.g., Estate Planning, Family Law" 
+                placeholder="Serial Number" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label">Operating System</label>
+              <input 
+                type="text" 
+                name="operatingSystem" 
+                value={formData.operatingSystem} 
+                onChange={handleChange} 
+                placeholder="e.g., iPadOS, Android" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Storage Capacity</label>
+              <input 
+                type="text" 
+                name="storageCapacity" 
+                value={formData.storageCapacity} 
+                onChange={handleChange} 
+                placeholder="e.g., 128GB, 256GB" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Device Password/PIN</label>
+              <input 
+                type="password" 
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                placeholder="Device Password or PIN" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Associated Account Email</label>
               <input 
                 type="email" 
-                name="email" 
-                value={formData.email} 
+                name="accountEmail" 
+                value={formData.accountEmail} 
                 onChange={handleChange} 
-                placeholder="Email Address" 
+                placeholder="Apple ID / Google Account" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Contact Telephone Number</label>
+              <label className="form-label">Account Password</label>
               <input 
-                type="tel" 
-                name="phone" 
-                value={formData.phone} 
+                type="password" 
+                name="accountPassword" 
+                value={formData.accountPassword} 
                 onChange={handleChange} 
-                placeholder="01234567890" 
+                placeholder="Account Password" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Office Address</label>
+              <label className="form-label">Purchase Date</label>
               <input 
-                type="text" 
-                name="address" 
-                value={formData.address} 
+                type="date" 
+                name="purchaseDate" 
+                value={formData.purchaseDate} 
                 onChange={handleChange} 
-                placeholder="Office Address" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">License Number</label>
-              <input 
-                type="text" 
-                name="licenseNumber" 
-                value={formData.licenseNumber} 
-                onChange={handleChange} 
-                placeholder="License Number" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Notes</label>
-              <textarea 
-                name="notes" 
-                value={formData.notes} 
-                onChange={handleChange} 
-                placeholder="write your notes here..." 
-                className="form-input" 
-                rows="4" 
-              />
-            </div>
-          </>
-        );
-
-      case 'accountant':
-        return (
-          <>
-            <div className="form-group">
-              <label className="form-label">First Name</label>
-              <input 
-                type="text" 
-                name="firstName" 
-                value={formData.firstName} 
-                onChange={handleChange} 
-                placeholder="First Name" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Surname</label>
-              <input 
-                type="text" 
-                name="surname" 
-                value={formData.surname} 
-                onChange={handleChange} 
-                placeholder="Surname" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Company Name</label>
-              <input 
-                type="text" 
-                name="companyName" 
-                value={formData.companyName} 
-                onChange={handleChange} 
-                placeholder="Accounting Firm Name" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Position</label>
-              <input 
-                type="text" 
-                name="position" 
-                value={formData.position} 
-                onChange={handleChange} 
-                placeholder="e.g., CPA, Tax Accountant" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleChange} 
-                placeholder="Email Address" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Contact Telephone Number</label>
-              <input 
-                type="tel" 
-                name="phone" 
-                value={formData.phone} 
-                onChange={handleChange} 
-                placeholder="01234567890" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Office Address</label>
-              <input 
-                type="text" 
-                name="address" 
-                value={formData.address} 
-                onChange={handleChange} 
-                placeholder="Office Address" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">License Number</label>
-              <input 
-                type="text" 
-                name="licenseNumber" 
-                value={formData.licenseNumber} 
-                onChange={handleChange} 
-                placeholder="Professional License Number" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Notes</label>
-              <textarea 
-                name="notes" 
-                value={formData.notes} 
-                onChange={handleChange} 
-                placeholder="write your notes here..." 
-                className="form-input" 
-                rows="4" 
-              />
-            </div>
-          </>
-        );
-
-      case 'financial-planner':
-        return (
-          <>
-            <div className="form-group">
-              <label className="form-label">First Name</label>
-              <input 
-                type="text" 
-                name="firstName" 
-                value={formData.firstName} 
-                onChange={handleChange} 
-                placeholder="First Name" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Surname</label>
-              <input 
-                type="text" 
-                name="surname" 
-                value={formData.surname} 
-                onChange={handleChange} 
-                placeholder="Surname" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Company Name</label>
-              <input 
-                type="text" 
-                name="companyName" 
-                value={formData.companyName} 
-                onChange={handleChange} 
-                placeholder="Financial Planning Firm" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Specialty</label>
-              <input 
-                type="text" 
-                name="specialty" 
-                value={formData.specialty} 
-                onChange={handleChange} 
-                placeholder="e.g., Retirement Planning, Investment Advisory" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleChange} 
-                placeholder="Email Address" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Contact Telephone Number</label>
-              <input 
-                type="tel" 
-                name="phone" 
-                value={formData.phone} 
-                onChange={handleChange} 
-                placeholder="01234567890" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Office Address</label>
-              <input 
-                type="text" 
-                name="address" 
-                value={formData.address} 
-                onChange={handleChange} 
-                placeholder="Office Address" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Certification Number</label>
-              <input 
-                type="text" 
-                name="licenseNumber" 
-                value={formData.licenseNumber} 
-                onChange={handleChange} 
-                placeholder="CFP, IFA License Number" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Notes</label>
-              <textarea 
-                name="notes" 
-                value={formData.notes} 
-                onChange={handleChange} 
-                placeholder="write your notes here..." 
-                className="form-input" 
-                rows="4" 
-              />
-            </div>
-          </>
-        );
-
-      case 'family-doctor':
-        return (
-          <>
-            <div className="form-group">
-              <label className="form-label">Doctor's First Name</label>
-              <input 
-                type="text" 
-                name="firstName" 
-                value={formData.firstName} 
-                onChange={handleChange} 
-                placeholder="First Name" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Doctor's Surname</label>
-              <input 
-                type="text" 
-                name="surname" 
-                value={formData.surname} 
-                onChange={handleChange} 
-                placeholder="Surname" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Clinic/Hospital Name</label>
-              <input 
-                type="text" 
-                name="companyName" 
-                value={formData.companyName} 
-                onChange={handleChange} 
-                placeholder="Clinic or Hospital Name" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Specialty</label>
-              <input 
-                type="text" 
-                name="specialty" 
-                value={formData.specialty} 
-                onChange={handleChange} 
-                placeholder="e.g., General Practice, Cardiology" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleChange} 
-                placeholder="Email Address" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Contact Telephone Number</label>
-              <input 
-                type="tel" 
-                name="phone" 
-                value={formData.phone} 
-                onChange={handleChange} 
-                placeholder="01234567890" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Clinic Address</label>
-              <input 
-                type="text" 
-                name="address" 
-                value={formData.address} 
-                onChange={handleChange} 
-                placeholder="Clinic Address" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Medical License Number</label>
-              <input 
-                type="text" 
-                name="licenseNumber" 
-                value={formData.licenseNumber} 
-                onChange={handleChange} 
-                placeholder="Medical License Number" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Notes</label>
-              <textarea 
-                name="notes" 
-                value={formData.notes} 
-                onChange={handleChange} 
-                placeholder="write your notes here..." 
-                className="form-input" 
-                rows="4" 
-              />
-            </div>
-          </>
-        );
-
-      case 'clubs-association':
-        return (
-          <>
-            <div className="form-group">
-              <label className="form-label">Club/Association Name</label>
-              <input 
-                type="text" 
-                name="companyName" 
-                value={formData.companyName} 
-                onChange={handleChange} 
-                placeholder="Club or Association Name" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Membership Number</label>
-              <input 
-                type="text" 
-                name="membershipNumber" 
-                value={formData.membershipNumber} 
-                onChange={handleChange} 
-                placeholder="Membership Number" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Contact Person Name</label>
-              <input 
-                type="text" 
-                name="firstName" 
-                value={formData.firstName} 
-                onChange={handleChange} 
-                placeholder="Contact Person Name" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleChange} 
-                placeholder="Email Address" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Contact Telephone Number</label>
-              <input 
-                type="tel" 
-                name="phone" 
-                value={formData.phone} 
-                onChange={handleChange} 
-                placeholder="01234567890" 
-                className="form-input" 
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Address</label>
-              <input 
-                type="text" 
-                name="address" 
-                value={formData.address} 
-                onChange={handleChange} 
-                placeholder="Club Address" 
                 className="form-input" 
               />
             </div>
@@ -758,57 +561,89 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
         return (
           <>
             <div className="form-group">
-              <label className="form-label">Contact Name</label>
+              <label className="form-label">Device Name</label>
               <input 
                 type="text" 
-                name="firstName" 
-                value={formData.firstName} 
+                name="deviceName" 
+                value={formData.deviceName} 
                 onChange={handleChange} 
-                placeholder="Contact Name" 
+                placeholder="Device Name" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Relationship/Position</label>
+              <label className="form-label">Device Type</label>
               <input 
                 type="text" 
-                name="relationship" 
-                value={formData.relationship} 
+                name="manufacturer" 
+                value={formData.manufacturer} 
                 onChange={handleChange} 
-                placeholder="Relationship or Position" 
+                placeholder="e.g., Smart Watch, E-Reader, Gaming Console" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label">Device Model</label>
+              <input 
+                type="text" 
+                name="deviceModel" 
+                value={formData.deviceModel} 
+                onChange={handleChange} 
+                placeholder="Model Number" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Serial Number</label>
+              <input 
+                type="text" 
+                name="serialNumber" 
+                value={formData.serialNumber} 
+                onChange={handleChange} 
+                placeholder="Serial Number" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Password/PIN</label>
+              <input 
+                type="password" 
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                placeholder="Device Password or PIN" 
+                className="form-input" 
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Associated Account Email</label>
               <input 
                 type="email" 
-                name="email" 
-                value={formData.email} 
+                name="accountEmail" 
+                value={formData.accountEmail} 
                 onChange={handleChange} 
-                placeholder="Email Address" 
+                placeholder="Associated Account Email" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Contact Telephone Number</label>
+              <label className="form-label">Account Password</label>
               <input 
-                type="tel" 
-                name="phone" 
-                value={formData.phone} 
+                type="password" 
+                name="accountPassword" 
+                value={formData.accountPassword} 
                 onChange={handleChange} 
-                placeholder="01234567890" 
+                placeholder="Account Password" 
                 className="form-input" 
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Address</label>
+              <label className="form-label">Purchase Date</label>
               <input 
-                type="text" 
-                name="address" 
-                value={formData.address} 
+                type="date" 
+                name="purchaseDate" 
+                value={formData.purchaseDate} 
                 onChange={handleChange} 
-                placeholder="Address" 
                 className="form-input" 
               />
             </div>
@@ -835,7 +670,7 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content-large" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2 className="modal-title">{contact.title}</h2>
+          <h2 className="modal-title">{device.title}</h2>
           <button className="modal-close" onClick={onClose}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -958,13 +793,13 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
             <div className="upload-modal-footer">
               <input 
                 type="file" 
-                id="contact-file-input" 
+                id="device-file-input" 
                 multiple 
                 onChange={handleFileInput}
                 style={{ display: 'none' }}
               />
               <button className="btn-cancel" onClick={() => setShowUploadModal(false)}>Cancel</button>
-              <label htmlFor="contact-file-input" className="btn-browse">Browse</label>
+              <label htmlFor="device-file-input" className="btn-browse">Browse</label>
             </div>
           </div>
         </div>
@@ -973,4 +808,4 @@ const ContactFormModal = ({ contact, onClose, onSave }) => {
   );
 };
 
-export default ContactFormModal;
+export default DeviceFormModal;

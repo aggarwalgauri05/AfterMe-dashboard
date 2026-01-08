@@ -1,0 +1,100 @@
+.legal-page {
+  padding: 2.5rem;
+  background: #eef6f3;
+  min-height: calc(100vh - 160px);
+}
+
+.page-header {
+  margin-bottom: 2.5rem;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.breadcrumb {
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+.breadcrumb-link {
+  color: #6b5cff;
+  cursor: pointer;
+}
+
+.legal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+}
+
+/* CARD */
+.legal-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 2.5rem 2rem;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.legal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.14);
+}
+
+/* CLOUD ICON */
+.legal-icon-cloud {
+  width: 160px;
+  height: 120px;
+  background: #5fcfc1;
+  border-radius: 50% 50% 45% 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legal-icon-cloud svg {
+  width: 56px;
+  height: 56px;
+  stroke: #ffffff;
+}
+
+/* TITLE */
+.legal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* COUNT */
+.count-badge {
+  padding: 0.55rem 1.8rem;
+  border-radius: 22px;
+  border: 2px solid #ff5a3c;
+  color: #ff5a3c;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .legal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .legal-grid {
+    grid-template-columns: 1fr;
+  }
+}
