@@ -1,11 +1,28 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const rootElement = document.getElementById('root');
+
+async function boot() {
+  try {
+    const ReactDOMClient = await import('react-dom/client');
+    const root = ReactDOMClient.createRoot(rootElement);
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+  } catch (err) {
+    // Fallback for environments where react-dom/client isn't available
+    const ReactDOM = await import('react-dom');
+    ReactDOM.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+      rootElement
+    );
+  }
+}
+
+boot();

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./BankAccounts.css";
-import BankAccountsFormModal from "../BankAccountsFormModal";
+import BankAccountsFormModal from "./BankAccountsFormModal";
 
 const BankAccounts = ({ onBack }) => {
   const [selectedItem, setSelectedItem] = useState(null);

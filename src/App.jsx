@@ -3,20 +3,20 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
 import Login from './login';
-import LegacyAssetsPage from './LegacyAssetsPage';
-import TrustedAppointeesPage from './TrustedAppointeesPage';
-import IdentificationDocuments from './IdentificationDocuments';
-import ImportantContacts from './ImportantContacts';
-import KeyDevices from './KeyDevices';
-import Taxes from './Taxes';
-import RealEstate from './RealEstate';
-import Insurance from './Insurance';
-import Financials from './Financials';
-import Miscellaneous from './Miscellaneous';
-import ExpertAdvisor from './ExpertAdvisor';
-import Legal from './Legal';
-import Trusts from './Trusts';
-import BankAccounts from './BankAccounts'; // 👈 Add this import
+import LegacyAssetsPage from './Manage/LegacyAssetsPage';
+import TrustedAppointeesPage from './Trusted/TrustedAppointeesPage';
+import IdentificationDocuments from './Manage/IdentificationDocuments';
+import ImportantContacts from './Manage/ImportantContacts';
+import KeyDevices from './Manage/KeyDevices';
+import Taxes from './Manage/Taxes';
+import RealEstate from './Manage/RealEstate';
+import Insurance from './Manage/Insurance';
+import Financials from './Manage/Financials';
+import Miscellaneous from './Manage/Miscellaneous';
+import ExpertAdvisor from './Expert/ExpertAdvisor';
+import Legal from './Manage/Legal';
+import Trusts from './Manage/Trusts';
+import BankAccounts from './Manage/BankAccounts'; // 👈 Add this import
 import './App.css';
 
 function App() {
