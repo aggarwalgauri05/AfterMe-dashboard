@@ -184,4 +184,4 @@ const Investments = ({ onBack }) => {
 };
 
 export default Investments;
-export default Financials;
+
